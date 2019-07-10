@@ -4,7 +4,8 @@
   "description": "A Node base CLI that uses Axios to query API's. LIRI will search Spotify for songs, Bands in Town for concerts, and OMDB for movies.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "keywords": [
     "Node",
@@ -12,5 +13,9 @@
     "API"
   ],
   "author": "Erik Hoversten",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.0.0"
+  }
 }
