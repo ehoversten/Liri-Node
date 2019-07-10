@@ -9,6 +9,24 @@ let axios = require('axios');
 let omdbKey = keys.omdb;
 // console.log(omdbKey); 
 
+
+let commandInput = process.argv[2];
+let searchInput = process.argv[3];
+
+// console.log(commandInput);
+// console.log(searchInput);
+
+switch (commandInput) {
+  case "concert-this":
+    concertSearch(searchInput);
+    break;
+  case "movie-this":
+    movieSearch(searchInput);
+    break;
+  default:
+    console.log("Please enter a valid command and search query");
+}
+
 /* ======================================================
    - COMMAND
    $> node liri.js concert-this <artist/band name here>
@@ -20,32 +38,35 @@ let omdbKey = keys.omdb;
         * Date of the Event (use moment to format this as "MM/DD/YYYY") 
 
 =================================================================== */
-let searchTerm = "";
-
 function concertSearch(query) {
+
+    console.log("-----------------------");
+    console.log("Searching for " + query);
 
     let artist = query.toLowerCase();
     let newQuery = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
     console.log(newQuery);
 
-    axios.get(newQuery).then(function(response) {
-        console.log("Found Results")
-        // console.log(response.data);
-        let results = response.data;
-        results.forEach(function(event) {
-            console.log("=========================");
-            console.log("Event for " + artist.toUpperCase());
-            console.log(event.offers[0].type + ", Status: " + event.offers[0].status);
-            console.log("Playing at: " + event.venue.name);
-            console.log("In " + event.venue.city + ", " + event.venue.region + " (" + event.venue.country + ")");
-            console.log("Date: " + event.datetime);
-            console.log("=========================");
-            console.log("");
-            // console.log("******************");
-        });
-    }).catch(function(err){
-        console.log(err);
-    }); 
+    axios
+      .get(newQuery)
+      .then(function(response) {
+            console.log("Found Results")
+            // console.log(response.data);
+            let results = response.data;
+            results.forEach(function(event) {
+                console.log("=========================");
+                console.log("Event for " + artist.toUpperCase());
+                console.log(event.offers[0].type + ", Status: " + event.offers[0].status);
+                console.log("Playing at: " + event.venue.name);
+                console.log("In " + event.venue.city + ", " + event.venue.region + " (" + event.venue.country + ")");
+                console.log("Date: " + event.datetime);
+                console.log("=========================");
+                console.log("");
+            });
+        })
+      .catch(function(err){
+            console.log(err);
+      }); 
 }
 
 // concertSearch("Spoon");
@@ -68,6 +89,11 @@ function concertSearch(query) {
 
 =================================================================== */
 function movieSearch(movie) {
+
+    console.log("-----------------------");
+    console.log("Searching for " + movie);
+
+
     // http://www.omdbapi.com/?apikey=[yourkey]&
     let userInput = movie.toLowerCase();
     // var queryURL = "https://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy";
@@ -80,7 +106,7 @@ function movieSearch(movie) {
     axios
       .get(queryURL)
       .then(function(response) {
-        console.log(response.data);
+        // console.log(response.data);
         let result = response.data;
         console.log("******************");
         console.log(`Title: ${result.Title}`);
@@ -99,4 +125,4 @@ function movieSearch(movie) {
 }
 
 // let title = "Jaws"
-movieSearch("avatar");
+// movieSearch("avatar");
