@@ -39,7 +39,7 @@ switch (commandInput) {
    - COMMAND
    $> node liri.js concert-this <artist/band name here>
 
-   - This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
+   - This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?   app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
 
         * Name of the venue
         * Venue location
@@ -79,7 +79,6 @@ function concertSearch(query) {
 
 // ----- TESTING ----- //
 // concertSearch("Spoon");
-
 
 /* ===================================================================
     - COMMAND
@@ -207,7 +206,7 @@ function songSearch(song) {
             console.log(`Artits: ${item.artists[0].name} `);
             console.log(`Artits: ${item.album.name} `);
             if (item.preview_url) {
-                console.log(`Song Preview: ${response.tracks.items[0].name}`);
+                console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
                     console.log(chalk.green("***************"));
                 } else {
                     console.log("Sorry no preview for this song");
@@ -215,6 +214,10 @@ function songSearch(song) {
                 }
             console.log(chalk.yellow("***************"));
         });
+
+        console.log(chalk.blue("----------------"));
+        // let result = response.tracks.items;
+        // console.log("testing " + result[0].preview_url);
         
         // ------ TESTING ------ //
         // console.log(response.tracks.items[0]);
@@ -239,19 +242,8 @@ function songSearch(song) {
         return console.log(err);
       });
 
-    // axios
-    //   .get(songQuery)
-    //   .then(function(response) {
-    //       console.log(response);
-    //       console.log(chalk.green("***************"));
-    //       console.log(response.data);
-    //   })
-    //   .catch(function(err) {
-    //       console.log(err);
-    //   })
 }
 
-// songSearch("smells like teen spirit");
 
 /* ======================================================
     - COMMAND
@@ -290,7 +282,7 @@ function readFromFile() {
                     console.log(`Artits: ${item.artists[0].name} `);
                     console.log(`Artits: ${item.album.name} `);
                     if (item.preview_url) {
-                        console.log(`Song Preview: ${response.tracks.items[0].name}`);
+                        console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
                         console.log(chalk.green("***************"));
                     } else {
                         console.log("Sorry no preview for this song");
@@ -299,6 +291,7 @@ function readFromFile() {
                     console.log(chalk.blue("----------------"));
                 });
             })
+            // if our promise throws an error, log it
             .catch(function(err) {
                 return console.log(err);
             })
