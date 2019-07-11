@@ -166,6 +166,14 @@ function movieSearch(movie) {
 function songSearch(song) {
 
     let songQuery = 'https://api.spotify.com/v1/search?query=bad&type=track&offset=0&limit=20';
+    // if no argument is supplied by the user, default to "The Sign" by Ace of Base
+    if(!song) {
+        song = "The Sign";
+    }
+
+    console.log(chalk.blue("----------------"));
+    console.log(`Searching for songs with title of "${song}"`);
+    console.log(chalk.blue("----------------"));
 
     spotify
       .search({ type: "track", query: song, limit: 5 })
@@ -203,8 +211,8 @@ function songSearch(song) {
         result.forEach(function(item) {
             console.log(chalk.yellow("***************"));
             console.log(`Song Title: ${item.name} `);
-            console.log(`Artits: ${item.artists[0].name} `);
-            console.log(`Artits: ${item.album.name} `);
+            console.log(`Artist(s): ${item.artists[0].name} `);
+            console.log(`Album: ${item.album.name} `);
             if (item.preview_url) {
                 console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
                     console.log(chalk.green("***************"));
@@ -212,10 +220,10 @@ function songSearch(song) {
                     console.log("Sorry no preview for this song");
                     console.log(chalk.blue("***************"));
                 }
-            console.log(chalk.yellow("***************"));
+            // console.log(chalk.yellow("***************"));
         });
 
-        console.log(chalk.blue("----------------"));
+        // console.log(chalk.blue("----------------"));
         // let result = response.tracks.items;
         // console.log("testing " + result[0].preview_url);
         
@@ -272,15 +280,15 @@ function readFromFile() {
         spotify
             .search({ type: "track", query: song, limit: 5 })
             .then(function(response){
-                console.log(chalk.blue("----------------"));
+                // console.log(chalk.blue("----------------"));
                 // console.log(response.tracks);
-                console.log(chalk.blue("----------------"));
+                // console.log(chalk.blue("----------------"));
                 let result = response.tracks.items;
                 result.forEach(function(item) {
                     console.log(chalk.blue("----------------"));
                     console.log(`Song Title: ${item.name} `);
-                    console.log(`Artits: ${item.artists[0].name} `);
-                    console.log(`Artits: ${item.album.name} `);
+                    console.log(`Artist(s): ${item.artists[0].name} `);
+                    console.log(`Album: ${item.album.name} `);
                     if (item.preview_url) {
                         console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
                         console.log(chalk.green("***************"));
@@ -288,7 +296,7 @@ function readFromFile() {
                         console.log("Sorry no preview for this song");
                         console.log(chalk.blue("***************"));
                     }
-                    console.log(chalk.blue("----------------"));
+                    // console.log(chalk.blue("----------------"));
                 });
             })
             // if our promise throws an error, log it
