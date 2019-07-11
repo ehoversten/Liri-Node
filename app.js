@@ -222,7 +222,7 @@ function songSearch(song) {
 
       })
       .catch(function(err) {
-        console.log(err);
+        return console.log(err);
       });
 
     // axios
@@ -252,8 +252,27 @@ function songSearch(song) {
 function readFromFile() {
     fs.readFile('random.txt', 'utf8', function(err, data){
         if(err) {
-            console.log(err);
+            return console.log(err);
         }
         console.log(data);
+        // Then split it by commas (to make it more readable)
+        let dataArr = data.split(", ");
+
+        // We will then re-display the content as an array for later use.
+        console.log(dataArr);
+        let song = dataArr[1];
+
+        // Run our spotitfy search
+        spotify
+            .search({ type: "track", query: song, limit: 5 })
+            .then(function(response){
+                console.log(chalk.blue("----------------"));
+                console.log(response.tracks);
+                console.log(chalk.blue("----------------"));
+            })
+            .catch(function(err) {
+                return console.log(err);
+            })
+
     });
 }
