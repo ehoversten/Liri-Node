@@ -190,35 +190,49 @@ function songSearch(song) {
         //   });
 
         // ------ TESTING ------- //
-        console.log(chalk.green("***************"));
-        console.log(response);
-        console.log(chalk.green("***************"));
-        console.log(response.tracks);
-        console.log(chalk.red("***************"));
+        // console.log(chalk.green("***************"));
+        // console.log(response);
+        // console.log(chalk.green("***************"));
+        // console.log(response.tracks);
+        // console.log(chalk.red("***************"));
         // ------ TESTING ------- //
 
-        console.log(response.tracks.items);
+        // console.log(response.tracks.items);
         console.log(chalk.blue("***************"));
         // Create a variable to hold our results so we can loop through it 
         let result = response.tracks.items;
         result.forEach(function(item) {
-            console.log()
+            console.log(chalk.yellow("***************"));
+            console.log(`Song Title: ${item.name} `);
+            console.log(`Artits: ${item.artists[0].name} `);
+            console.log(`Artits: ${item.album.name} `);
+            if (item.preview_url) {
+                console.log(`Song Preview: ${response.tracks.items[0].name}`);
+                    console.log(chalk.green("***************"));
+                } else {
+                    console.log("Sorry no preview for this song");
+                    console.log(chalk.blue("***************"));
+                }
+            console.log(chalk.yellow("***************"));
         });
-        console.log(response.tracks.items[0]);
-        console.log(chalk.green("***************"));
-        console.log(`Song Title: ${response.tracks.items[0].name}`);
-        // console.log(chalk.blue("***************"));
-        console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
+        
+        // ------ TESTING ------ //
+        // console.log(response.tracks.items[0]);
         // console.log(chalk.green("***************"));
-        console.log(`Album: ${response.tracks.items[0].album.name}`);
-        // console.log(chalk.green("***************"));
-        if(response.tracks.items[0].preview_url){
-            console.log(`Song Preview: ${response.tracks.items[0].name}`);
-            console.log(chalk.green("***************"));
-        } else {
-            console.log("Sorry no preview for this song");
-            console.log(chalk.blue("***************"));
-        }
+        // console.log(`Song Title: ${response.tracks.items[0].name}`);
+        // // console.log(chalk.blue("***************"));
+        // console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
+        // // console.log(chalk.green("***************"));
+        // console.log(`Album: ${response.tracks.items[0].album.name}`);
+        // // console.log(chalk.green("***************"));
+        // if(response.tracks.items[0].preview_url){
+        //     console.log(`Song Preview: ${response.tracks.items[0].name}`);
+        //     console.log(chalk.green("***************"));
+        // } else {
+        //     console.log("Sorry no preview for this song");
+        //     console.log(chalk.blue("***************"));
+        // }
+        // ------ TESTING ------ //
 
       })
       .catch(function(err) {
@@ -267,8 +281,23 @@ function readFromFile() {
             .search({ type: "track", query: song, limit: 5 })
             .then(function(response){
                 console.log(chalk.blue("----------------"));
-                console.log(response.tracks);
+                // console.log(response.tracks);
                 console.log(chalk.blue("----------------"));
+                let result = response.tracks.items;
+                result.forEach(function(item) {
+                    console.log(chalk.blue("----------------"));
+                    console.log(`Song Title: ${item.name} `);
+                    console.log(`Artits: ${item.artists[0].name} `);
+                    console.log(`Artits: ${item.album.name} `);
+                    if (item.preview_url) {
+                        console.log(`Song Preview: ${response.tracks.items[0].name}`);
+                        console.log(chalk.green("***************"));
+                    } else {
+                        console.log("Sorry no preview for this song");
+                        console.log(chalk.blue("***************"));
+                    }
+                    console.log(chalk.blue("----------------"));
+                });
             })
             .catch(function(err) {
                 return console.log(err);
