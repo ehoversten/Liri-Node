@@ -1,13 +1,14 @@
 require("dotenv").config();
-let keys = require("./keys.js");
-var Spotify = require('node-spotify-api');
-let axios = require('axios');
+const keys = require("./keys.js");
+const Spotify = require('node-spotify-api');
+const axios = require('axios');
 const chalk = require("chalk");
+const fs = require('fs');
 
-var spotify = new Spotify(keys.spotify);
+const spotify = new Spotify(keys.spotify);
 // console.log(spotify);
 
-let omdbKey = keys.omdb;
+const omdbKey = keys.omdb;
 // console.log(omdbKey); 
 
 
@@ -18,17 +19,20 @@ let searchInput = process.argv[3];
 // console.log(searchInput);
 
 switch (commandInput) {
-  case 'concert-this':
-      concertSearch(searchInput);
-      break;
-  case 'movie-this':
-      movieSearch(searchInput);
-      break;
-  case 'spotify-this-song':
-      songSearch(searchInput);
-      break;
-  default:
-      console.log("Please enter a valid command and search query");
+    case 'concert-this':
+        concertSearch(searchInput);
+        break;
+    case 'movie-this':
+        movieSearch(searchInput);
+        break;
+    case 'spotify-this-song':
+        songSearch(searchInput);
+        break;
+    case 'do-what-it-says':
+        readFromFile();
+        break;
+    default:
+        console.log("Please enter a valid command and search query");
 }
 
 /* ======================================================
@@ -167,13 +171,40 @@ function songSearch(song) {
     spotify
       .search({ type: "track", query: song, limit: 5 })
       .then(function(response) {
-        // console.log(response);
-        // console.log(chalk.green("***************"));
-        // console.log(response.tracks);
-        // console.log(chalk.red("***************"));
-        // console.log(response.tracks.items);
-        // console.log(chalk.blue("***************"));
-        // console.log(response.tracks.items[0]);
+        //   let result = response;
+        //   result.forEach(function(item) {
+        //         console.log(chalk.green("***************"));
+        //         console.log(`Song Title: ${response.tracks.items[0].name}`);
+        //         console.log();
+        //         console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
+        //         console.log();
+        //         console.log(`Album: ${response.tracks.items[0].album.name}`);
+        //         console.log();
+        //         if (response.tracks.items[0].preview_url) {
+        //           console.log(`Song Preview: ${response.tracks.items[0].name}`);
+        //           console.log(chalk.green("***************"));
+        //         } else {
+        //           console.log("Sorry no preview for this song");
+        //           console.log(chalk.blue("***************"));
+        //         }
+        //   });
+
+        // ------ TESTING ------- //
+        console.log(chalk.green("***************"));
+        console.log(response);
+        console.log(chalk.green("***************"));
+        console.log(response.tracks);
+        console.log(chalk.red("***************"));
+        // ------ TESTING ------- //
+
+        console.log(response.tracks.items);
+        console.log(chalk.blue("***************"));
+        // Create a variable to hold our results so we can loop through it 
+        let result = response.tracks.items;
+        result.forEach(function(item) {
+            console.log()
+        });
+        console.log(response.tracks.items[0]);
         console.log(chalk.green("***************"));
         console.log(`Song Title: ${response.tracks.items[0].name}`);
         // console.log(chalk.blue("***************"));
@@ -207,3 +238,22 @@ function songSearch(song) {
 }
 
 // songSearch("smells like teen spirit");
+
+/* ======================================================
+    - COMMAND
+    $> node liri.js do-what-it-says
+
+    - Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
+
+    - It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
+      Edit the text in random.txt to test out the feature for movie-this and concert-this.
+
+====================================================== */
+function readFromFile() {
+    fs.readFile('random.txt', 'utf8', function(err, data){
+        if(err) {
+            console.log(err);
+        }
+        console.log(data);
+    });
+}
