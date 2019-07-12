@@ -4,6 +4,7 @@ const Spotify = require('node-spotify-api');
 const axios = require('axios');
 const chalk = require("chalk");
 const fs = require('fs');
+const inquirer = require('inquirer');
 
 const spotify = new Spotify(keys.spotify);
 // console.log(spotify);
@@ -11,29 +12,77 @@ const spotify = new Spotify(keys.spotify);
 const omdbKey = keys.omdb;
 // console.log(omdbKey); 
 
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name', 
+        message: "Hello there! Welcome to the EntertainME app (a NodeJS API search).\n What's your name friend?"
+    },
+    {
+        type: 'list',
+        name: 'search_type',
+        message: "What would you like to search for?",
+        choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random", "Exit"]
+    },
+    {
+        type: 'input',
+        name: 'userInput',
+        message: "What are you searching for?"
+    },
+]).then(function(selection) {
+    console.log(chalk.blue("================="));
+    console.log(`Hello ${selection.name}`);
+    let searchType = selection.search_type;
+    console.log(`You want to ${selection.search_type}`);
+    let userSelection = selection.userInput;
+    console.log(`User Selected search ${userSelection}`);
+    console.log(`We are processing your search for ${selection.userInput} ...`);
+    switch (searchType) {
+        case 'Search Bands in Town for a show':
+            concertSearch(userSelection);
+            break;
+        case 'Search OMDB for a movie':
+            movieSearch(userSelection);
+            break;
+        case 'Search Spotify for a song':
+            songSearch(userSelection);
+            break;
+        case 'Choose Random':
+            readFromFile();
+            break;
+        case 'Exit':
+            console.log("Thank you Goodbye!");
+            break;
+        default:
+            console.log("Please enter a valid command and search query");
+    }
+}).catch(function(err) {
+    console.log(err);
+});
 
-let commandInput = process.argv[2];
-let searchInput = process.argv[3];
 
-// console.log(commandInput);
-// console.log(searchInput);
+// let commandInput = process.argv[2];
+// let searchInput = process.argv[3];
 
-switch (commandInput) {
-    case 'concert-this':
-        concertSearch(searchInput);
-        break;
-    case 'movie-this':
-        movieSearch(searchInput);
-        break;
-    case 'spotify-this-song':
-        songSearch(searchInput);
-        break;
-    case 'do-what-it-says':
-        readFromFile();
-        break;
-    default:
-        console.log("Please enter a valid command and search query");
-}
+// // console.log(commandInput);
+// // console.log(searchInput);
+
+// switch (commandInput) {
+//     case 'concert-this':
+//         concertSearch(searchInput);
+//         break;
+//     case 'movie-this':
+//         movieSearch(searchInput);
+//         break;
+//     case 'spotify-this-song':
+//         songSearch(searchInput);
+//         break;
+//     case 'do-what-it-says':
+//         readFromFile();
+//         break;
+//     default:
+//         console.log("Please enter a valid command and search query");
+// }
 
 /* ======================================================
    - COMMAND
@@ -53,7 +102,7 @@ function concertSearch(query) {
 
     let artist = query.toLowerCase();
     let newQuery = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
-    console.log(chalk.blue(newQuery));
+    // console.log(chalk.blue(newQuery));
 
     axios
       .get(newQuery)
@@ -75,6 +124,7 @@ function concertSearch(query) {
       .catch(function(err){
             console.log(err);
       }); 
+
 }
 
 // ----- TESTING ----- //
@@ -142,6 +192,9 @@ function movieSearch(movie) {
       .catch(function(err) {
         console.log(err);
       });
+
+      // Log the command and search input to the log.txt file
+    //   logger(commandInput, userInput);
 }
 
 // ----- TESTING ----- //
@@ -305,4 +358,28 @@ function readFromFile() {
             })
 
     });
+}
+
+/* ======================================================
+    Logging User Requests (commands)
+
+    - In addition to logging the data to your terminal/bash window, output the data to a .txt file called log.txt.
+    - Make sure you append each command you run to the log.txt file. 
+    - Do not overwrite your file each time you run a command.
+
+====================================================== */
+function logger(command, query) {
+    let cmdLog = command;
+    let queryLog = query;
+    let dataIn = [];
+    dataIn.push(cmdLog, queryLog);
+    console.log(`Data Array: ${dataIn}`);
+
+    fs.writeFile('log.txt', dataIn, function(err, data) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("Write successful");
+        console.log(data);
+    })
 }
