@@ -41,7 +41,7 @@ function init() {
 
 // Function to end the search program and exit the inquirer process
 function endSearch() {
-    console.log("Thank you for using the EntertainME program, Goodbye!");
+    console.log(chalk.blue.bold('Thank you for using the EntertainME program, Goodbye!'));
     // Exit the inquirer prompt
     process.exit();
 }
@@ -57,12 +57,12 @@ function continueSearch() {
         }
     ])
     .then(function(state) {
-        console.log(state);
+        // console.log(state);
         if(state.search_state == 'YES') {
             console.log("Great, let's continue");
             check();
         } else {
-            console.log("Finished? Hope you found what you were looking for!");
+            console.log(chalk.red.bold("Finished? Hope you found what you were looking for!"));
             endSearch();
         }
     })
@@ -72,61 +72,55 @@ function continueSearch() {
 }
 
 function check() {
-    console.log("Running Tests .... ")
-    if(stillSearching === false) {
-        console.log("Thank you Goodbye!");
-        // Exit the inquirer prompt
-        process.exit();
-    } else {
-        inquirer.prompt([
-            {
-                type: 'list',
-                name: 'search_type',
-                message: "What would you like to search for?",
-                choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
-            },
-            {
-                type: 'input',
-                name: 'userInput',
-                message: "What are you searching for?"
-            },
-        ]).then(function(selection) {
-            console.log(chalk.magenta("================="));
-            // console.log(`Hello ${selection.name}`);
-            let searchType = selection.search_type;
-            console.log(`You want to ${selection.search_type}`);
-            let userSelection = selection.userInput;
-            console.log(`User Selected search ${userSelection}`);
-            console.log(`We are processing your search for ${selection.userInput} ...`);
-            switch (searchType) {
-                case 'Search Bands in Town for a show':
-                    concertSearch(userSelection);
-                    break;
-                case 'Search OMDB for a movie':
-                    movieSearch(userSelection);
-                    break;
-                case 'Search Spotify for a song':
-                    songSearch(userSelection);
-                    break;
-                case 'Choose Random':
-                    readFromFile();
-                    break;
-                // case 'Exit':
-                //     console.log("Thank you for using EntertainME");
-                //     stillSearching = false;
-                //     process.exit();
-                //     break;
-                default:
-                    console.log("Please enter a valid command and search query");
-            }
+    //console.log("Running Tests .... ")
 
-            // run continueSearch() function to see if we are still searching
-            setTimeout(continueSearch, 1500);
-        }).catch(function(err) {
-            console.log(err);
-        });
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'search_type',
+            message: "What would you like to search for?",
+            choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
+        },
+        {
+            type: 'input',
+            name: 'userInput',
+            message: "What are you searching for?"
+        },
+    ]).then(function(selection) {
+        console.log(chalk.magenta("================="));
+        // console.log(`Hello ${selection.name}`);
+        let searchType = selection.search_type;
+        console.log(`You want to ${selection.search_type}`);
+        let userSelection = selection.userInput;
+        console.log(`User Selected search ${userSelection}`);
+        console.log(`We are processing your search for ${selection.userInput} ...`);
+        switch (searchType) {
+            case 'Search Bands in Town for a show':
+                concertSearch(userSelection);
+                break;
+            case 'Search OMDB for a movie':
+                movieSearch(userSelection);
+                break;
+            case 'Search Spotify for a song':
+                songSearch(userSelection);
+                break;
+            case 'Choose Random':
+                readFromFile();
+                break;
+            // case 'Exit':
+            //     console.log("Thank you for using EntertainME");
+            //     stillSearching = false;
+            //     process.exit();
+            //     break;
+            default:
+                console.log("Please enter a valid command and search query");
+        }
 
-    }
+        // run continueSearch() function to see if we are still searching
+        setTimeout(continueSearch, 1500);
+    }).catch(function(err) {
+        console.log(err);
+    });
 }
 
 
