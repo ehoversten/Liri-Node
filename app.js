@@ -12,53 +12,122 @@ const spotify = new Spotify(keys.spotify);
 const omdbKey = keys.omdb;
 // console.log(omdbKey); 
 
-inquirer.prompt([
-    {
-        type: 'input',
-        name: 'name', 
-        message: "Hello there! Welcome to the EntertainME app (a NodeJS API search).\n What's your name friend?"
-    },
-    {
-        type: 'list',
-        name: 'search_type',
-        message: "What would you like to search for?",
-        choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random", "Exit"]
-    },
-    {
-        type: 'input',
-        name: 'userInput',
-        message: "What are you searching for?"
-    },
-]).then(function(selection) {
-    console.log(chalk.blue("================="));
-    console.log(`Hello ${selection.name}`);
-    let searchType = selection.search_type;
-    console.log(`You want to ${selection.search_type}`);
-    let userSelection = selection.userInput;
-    console.log(`User Selected search ${userSelection}`);
-    console.log(`We are processing your search for ${selection.userInput} ...`);
-    switch (searchType) {
-        case 'Search Bands in Town for a show':
-            concertSearch(userSelection);
-            break;
-        case 'Search OMDB for a movie':
-            movieSearch(userSelection);
-            break;
-        case 'Search Spotify for a song':
-            songSearch(userSelection);
-            break;
-        case 'Choose Random':
-            readFromFile();
-            break;
-        case 'Exit':
-            console.log("Thank you Goodbye!");
-            break;
-        default:
-            console.log("Please enter a valid command and search query");
+// Initialize search variable to 'true'
+let stillSearching = true;
+
+// Initialization function to start off our program and prompt the user for their Name
+function init() {
+    console.log("Program Starting ...");
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: "Hello there! Welcome to the EntertainME program (a NodeJS CLI based API search).\n What's your name friend?"
+        }
+    ]).then(function(userName) {
+        console.log(chalk.blue("================="));
+        console.log(`Hello ${chalk.red(userName.name)}`);
+        console.log(chalk.green("Let's get things started with a search query shall we?"));
+
+        // Continue into our main program search function
+        check();
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
+
+    
+}
+
+// Function to end the search program and exit the inquirer process
+function endSearch() {
+    console.log("Thank you for using the EntertainME program, Goodbye!");
+    // Exit the inquirer prompt
+    process.exit();
+}
+
+// Function to prompt USER to continue searching or quit
+function continueSearch() {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'search_state',
+            message: 'Continue searching?',
+            choices: ["YES", "No"]
+        }
+    ])
+    .then(function(state) {
+        console.log(state);
+        if(state.search_state == 'YES') {
+            console.log("Great, let's continue");
+            check();
+        } else {
+            console.log("Finished? Hope you found what you were looking for!");
+            endSearch();
+        }
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
+}
+
+function check() {
+    console.log("Running Tests .... ")
+    if(stillSearching === false) {
+        console.log("Thank you Goodbye!");
+        // Exit the inquirer prompt
+        process.exit();
+    } else {
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'search_type',
+                message: "What would you like to search for?",
+                choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
+            },
+            {
+                type: 'input',
+                name: 'userInput',
+                message: "What are you searching for?"
+            },
+        ]).then(function(selection) {
+            console.log(chalk.magenta("================="));
+            // console.log(`Hello ${selection.name}`);
+            let searchType = selection.search_type;
+            console.log(`You want to ${selection.search_type}`);
+            let userSelection = selection.userInput;
+            console.log(`User Selected search ${userSelection}`);
+            console.log(`We are processing your search for ${selection.userInput} ...`);
+            switch (searchType) {
+                case 'Search Bands in Town for a show':
+                    concertSearch(userSelection);
+                    break;
+                case 'Search OMDB for a movie':
+                    movieSearch(userSelection);
+                    break;
+                case 'Search Spotify for a song':
+                    songSearch(userSelection);
+                    break;
+                case 'Choose Random':
+                    readFromFile();
+                    break;
+                // case 'Exit':
+                //     console.log("Thank you for using EntertainME");
+                //     stillSearching = false;
+                //     process.exit();
+                //     break;
+                default:
+                    console.log("Please enter a valid command and search query");
+            }
+
+            // run continueSearch() function to see if we are still searching
+            setTimeout(continueSearch, 1500);
+        }).catch(function(err) {
+            console.log(err);
+        });
+
     }
-}).catch(function(err) {
-    console.log(err);
-});
+}
 
 
 // let commandInput = process.argv[2];
@@ -383,3 +452,6 @@ function logger(command, query) {
         console.log(data);
     })
 }
+
+// Start program
+init();
