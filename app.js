@@ -22,7 +22,10 @@ function init() {
         {
             type: 'input',
             name: 'name',
-            message: "Hello there! Welcome to the EntertainME program (a NodeJS CLI based API search).\n What's your name friend?"
+            message: "Hello there! Welcome to the EntertainME program (a NodeJS CLI based API search).\n What's your name friend?",
+            validate: function validateName(name) {
+                return name !== '';
+            }
         }
     ]).then(function(userName) {
         console.log(chalk.blue("================="));
