@@ -82,7 +82,7 @@ function check() {
             type: 'list',
             name: 'search_type',
             message: "What would you like to search for?",
-            choices: ["Search Spotify for a song", "Search Spotify for an artist", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
+            choices: ["Search Spotify for a song", "Search Spotify for an artist", "Search Spotify for an album", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
         },
         {
             type: 'input',
@@ -109,6 +109,9 @@ function check() {
                 break;
             case 'Search Spotify for an artist':
                 spotifyArtistSearch(userSelection);
+                break;
+            case 'Search Spotify for an album':
+                spotifyAlbumSearch(userSelection);
                 break;
             case 'Choose Random':
                 readFromFile();
@@ -377,7 +380,6 @@ function songSearch(song) {
 
 // ==================================================
 function spotifyArtistSearch(artist) {
-    console.log(artist);
 
     spotify
         .search({ type: "artist", query: artist, limit: 5 })
@@ -395,6 +397,27 @@ function spotifyArtistSearch(artist) {
         .catch(function(err) {
             return console.log(err);
         });
+}
+
+// ==================================================
+function spotifyAlbumSearch(album) {
+
+    spotify
+        .search({ type: "album", query: album, limit: 5 })
+        .then(function (response) {
+            // console.log(response);
+            console.log("**********");
+            // console.log(response.albums.items[0].artists);
+            // console.log(response.artists.items[1].external_urls);
+
+            console.log(`Artist: ${response.albums.items[0].artists[0].name}`);
+            console.log(`Album Title: ${response.albums.items[0].name}`);
+            console.log(`Track Count: ${response.albums.items[0].total_tracks}`);
+            console.log(`Release Date: ${response.albums.items[0].release_date}`);
+        })
+        .catch(function (err) {
+            return console.log(err);
+        }); 
 }
 
 
