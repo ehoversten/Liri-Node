@@ -82,7 +82,7 @@ function check() {
             type: 'list',
             name: 'search_type',
             message: "What would you like to search for?",
-            choices: ["Search Spotify for a song", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
+            choices: ["Search Spotify for a song", "Search Spotify for an artist", "Search OMDB for a movie", "Search Bands in Town for a show", "Choose Random (read from file)"]
         },
         {
             type: 'input',
@@ -106,6 +106,9 @@ function check() {
                 break;
             case 'Search Spotify for a song':
                 songSearch(userSelection);
+                break;
+            case 'Search Spotify for an artist':
+                spotifyArtistSearch(userSelection);
                 break;
             case 'Choose Random':
                 readFromFile();
@@ -369,6 +372,29 @@ function songSearch(song) {
         return console.log(err);
       });
 
+}
+
+
+// ==================================================
+function spotifyArtistSearch(artist) {
+    console.log(artist);
+
+    spotify
+        .search({ type: "artist", query: artist, limit: 5 })
+        .then(function (response) {
+            // console.log(response);
+            console.log("**********");
+            // console.log(response.artists.items[0]);
+            // console.log(response.artists.items[1].external_urls);
+
+            console.log(`Artist: ${response.artists.items[0].name}`);
+            console.log(`Genre: ${response.artists.items[0].genres}`);
+            console.log(`Popularity: ${response.artists.items[0].popularity}`);
+            console.log(`Web Link: ${response.artists.items[0].href}`);
+        })
+        .catch(function(err) {
+            return console.log(err);
+        });
 }
 
 
