@@ -6,11 +6,9 @@ const chalk = require("chalk");
 const fs = require('fs');
 const inquirer = require('inquirer');
 
+// API Keys
 const spotify = new Spotify(keys.spotify);
-// console.log(spotify);
-
 const omdbKey = keys.omdb;
-// console.log(omdbKey); 
 
 // Initialize search variable to 'true'
 let stillSearching = true;
@@ -75,8 +73,6 @@ function continueSearch() {
 }
 
 function check() {
-    //console.log("Running Tests .... ")
-
     inquirer.prompt([
         {
             type: 'list',
@@ -132,30 +128,6 @@ function check() {
     });
 }
 
-
-// let commandInput = process.argv[2];
-// let searchInput = process.argv[3];
-
-// // console.log(commandInput);
-// // console.log(searchInput);
-
-// switch (commandInput) {
-//     case 'concert-this':
-//         concertSearch(searchInput);
-//         break;
-//     case 'movie-this':
-//         movieSearch(searchInput);
-//         break;
-//     case 'spotify-this-song':
-//         songSearch(searchInput);
-//         break;
-//     case 'do-what-it-says':
-//         readFromFile();
-//         break;
-//     default:
-//         console.log("Please enter a valid command and search query");
-// }
-
 /* ======================================================
    - COMMAND
    $> node liri.js concert-this <artist/band name here>
@@ -174,13 +146,12 @@ function concertSearch(query) {
 
     let artist = query.toLowerCase();
     let newQuery = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
-    // console.log(chalk.blue(newQuery));
 
     axios
       .get(newQuery)
       .then(function(response) {
-            console.log("Found Results")
-            // console.log(response.data);
+            console.log("Found Results...")
+
             let results = response.data;
             results.forEach(function(event) {
                 console.log(chalk.green("========================="));
@@ -199,8 +170,6 @@ function concertSearch(query) {
 
 }
 
-// ----- TESTING ----- //
-// concertSearch("Spoon");
 
 /* ===================================================================
     - COMMAND
@@ -229,14 +198,10 @@ function movieSearch(movie) {
     if(movie == undefined) {
         userInput = "Mr+Nobody";
     } else {
-        // userInput = movie.toLowerCase();
         userInput = movie;
     }
 
     console.log(chalk.red(userInput));
-    // http://www.omdbapi.com/?apikey=[yourkey]&
-    // let userInput = movie.toLowerCase();
-    // var queryURL = "https://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy";
 
     // Let's build our query search 
     let queryURL = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=" + omdbKey.apikey;
@@ -246,13 +211,11 @@ function movieSearch(movie) {
     axios
       .get(queryURL)
       .then(function(response) {
-        // console.log(response.data);
+
         let result = response.data;
         console.log(chalk.red("******************"));
         console.log(chalk.green("Title:" + result.Title));
-        // console.log(`Title: ${result.Title}`);
         console.log(chalk.blue("Year Released:" + result.Year));
-        // console.log(`Year Released: ${result.Year}`);
         console.log(`IMDB Rating: ${result.imdbRating}`);
         console.log(`Country Produced: ${result.Country}`);
         console.log(`Rotten Tomatoes Rating: ${result.Ratings[1].Value}`);
@@ -269,9 +232,6 @@ function movieSearch(movie) {
     //   logger(commandInput, userInput);
 }
 
-// ----- TESTING ----- //
-// let title = "Jaws"
-// movieSearch("avatar");
 
 /* ======================================================
     - COMMAND
@@ -303,33 +263,6 @@ function songSearch(song) {
     spotify
       .search({ type: "track", query: song, limit: 5 })
       .then(function(response) {
-        //   let result = response;
-        //   result.forEach(function(item) {
-        //         console.log(chalk.green("***************"));
-        //         console.log(`Song Title: ${response.tracks.items[0].name}`);
-        //         console.log();
-        //         console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
-        //         console.log();
-        //         console.log(`Album: ${response.tracks.items[0].album.name}`);
-        //         console.log();
-        //         if (response.tracks.items[0].preview_url) {
-        //           console.log(`Song Preview: ${response.tracks.items[0].name}`);
-        //           console.log(chalk.green("***************"));
-        //         } else {
-        //           console.log("Sorry no preview for this song");
-        //           console.log(chalk.blue("***************"));
-        //         }
-        //   });
-
-        // ------ TESTING ------- //
-        // console.log(chalk.green("***************"));
-        // console.log(response);
-        // console.log(chalk.green("***************"));
-        // console.log(response.tracks);
-        // console.log(chalk.red("***************"));
-        // ------ TESTING ------- //
-
-        // console.log(response.tracks.items);
         console.log(chalk.blue("***************"));
         // Create a variable to hold our results so we can loop through it 
         let result = response.tracks.items;
@@ -345,30 +278,7 @@ function songSearch(song) {
                     console.log("Sorry no preview for this song");
                     console.log(chalk.blue("***************"));
                 }
-            // console.log(chalk.yellow("***************"));
         });
-
-        // console.log(chalk.blue("----------------"));
-        // let result = response.tracks.items;
-        // console.log("testing " + result[0].preview_url);
-        
-        // ------ TESTING ------ //
-        // console.log(response.tracks.items[0]);
-        // console.log(chalk.green("***************"));
-        // console.log(`Song Title: ${response.tracks.items[0].name}`);
-        // // console.log(chalk.blue("***************"));
-        // console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
-        // // console.log(chalk.green("***************"));
-        // console.log(`Album: ${response.tracks.items[0].album.name}`);
-        // // console.log(chalk.green("***************"));
-        // if(response.tracks.items[0].preview_url){
-        //     console.log(`Song Preview: ${response.tracks.items[0].name}`);
-        //     console.log(chalk.green("***************"));
-        // } else {
-        //     console.log("Sorry no preview for this song");
-        //     console.log(chalk.blue("***************"));
-        // }
-        // ------ TESTING ------ //
 
       })
       .catch(function(err) {
@@ -384,11 +294,7 @@ function spotifyArtistSearch(artist) {
     spotify
         .search({ type: "artist", query: artist, limit: 5 })
         .then(function (response) {
-            // console.log(response);
             console.log("**********");
-            // console.log(response.artists.items[0]);
-            // console.log(response.artists.items[1].external_urls);
-
             console.log(`Artist: ${response.artists.items[0].name}`);
             console.log(`Genre: ${response.artists.items[0].genres}`);
             console.log(`Popularity: ${response.artists.items[0].popularity}`);
@@ -405,11 +311,7 @@ function spotifyAlbumSearch(album) {
     spotify
         .search({ type: "album", query: album, limit: 5 })
         .then(function (response) {
-            // console.log(response);
             console.log("**********");
-            // console.log(response.albums.items[0].artists);
-            // console.log(response.artists.items[1].external_urls);
-
             console.log(`Artist: ${response.albums.items[0].artists[0].name}`);
             console.log(`Album Title: ${response.albums.items[0].name}`);
             console.log(`Track Count: ${response.albums.items[0].total_tracks}`);
@@ -448,9 +350,6 @@ function readFromFile() {
         spotify
             .search({ type: "track", query: song, limit: 5 })
             .then(function(response){
-                // console.log(chalk.blue("----------------"));
-                // console.log(response.tracks);
-                // console.log(chalk.blue("----------------"));
                 let result = response.tracks.items;
                 result.forEach(function(item) {
                     console.log(chalk.blue("----------------"));
@@ -464,7 +363,6 @@ function readFromFile() {
                         console.log("Sorry no preview for this song");
                         console.log(chalk.blue("***************"));
                     }
-                    // console.log(chalk.blue("----------------"));
                 });
             })
             // if our promise throws an error, log it
