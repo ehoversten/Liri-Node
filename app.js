@@ -205,7 +205,6 @@ function movieSearch(movie) {
 
     // Let's build our query search 
     let queryURL = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=" + omdbKey.apikey;
-    // console.log(queryURL);
 
     // Send our constructed query string to the API
     axios
@@ -287,12 +286,22 @@ function songSearch(song) {
 
 }
 
+/* ======================================================
+    - COMMAND
+    $> node liri.js spotify-this-artist '<artist name here>'
 
-// ==================================================
+    - This will show the following information about the song in your terminal/bash window:
+        * Artist(s) name
+        * The artists genre
+        * Popularity rank on Spotify
+        * Link to artist spotify page
+
+    - You will utilize the node-spotify-api package in order to retrieve song information from the Spotify API.
+ ====================================================== */
 function spotifyArtistSearch(artist) {
 
     spotify
-        .search({ type: "artist", query: artist, limit: 5 })
+        .search({ type: "artist", query: artist, limit: 1 })
         .then(function (response) {
             console.log("**********");
             console.log(`Artist: ${response.artists.items[0].name}`);
@@ -305,7 +314,18 @@ function spotifyArtistSearch(artist) {
         });
 }
 
-// ==================================================
+/* ======================================================
+    - COMMAND
+    $> node liri.js spotify-this-album '<album name here>'
+
+    - This will show the following information about the song in your terminal/bash window:
+        * Album title
+        * Album artist name
+        * Number of tracks on album
+        * Release date of album
+
+    - You will utilize the node-spotify-api package in order to retrieve song information from the Spotify API.
+ ====================================================== */
 function spotifyAlbumSearch(album) {
 
     spotify
