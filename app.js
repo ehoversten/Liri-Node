@@ -93,6 +93,10 @@ function check() {
         let userSelection = selection.userInput;
         console.log(`User Selected search ${userSelection}`);
         console.log(`We are processing your search for ${selection.userInput} ...`);
+
+        // Log the command and search input to the log.txt file
+        logger(searchType, userSelection);
+
         switch (searchType) {
             case 'Search Bands in Town for a show':
                 concertSearch(userSelection);
@@ -406,6 +410,7 @@ function logger(command, query) {
     let queryLog = query;
     let dataIn = [];
     dataIn.push(cmdLog, queryLog);
+    console.log("Logging Query ...");
     console.log(`Data Array: ${dataIn}`);
 
     fs.writeFile('log.txt', dataIn, function(err, data) {

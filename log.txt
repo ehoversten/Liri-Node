@@ -1,1 +1,1 @@
-movie-this,jaws
+Search OMDB for a movie,Jaws
