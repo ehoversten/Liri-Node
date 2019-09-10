@@ -231,8 +231,6 @@ function movieSearch(movie) {
         console.log(err);
       });
 
-      // Log the command and search input to the log.txt file
-    //   logger(commandInput, userInput);
 }
 
 
@@ -410,14 +408,22 @@ function logger(command, query) {
     let queryLog = query;
     let dataIn = [];
     dataIn.push(cmdLog, queryLog);
-    console.log("Logging Query ...");
+    // console.log("Logging Query ...");
     console.log(`Data Array: ${dataIn}`);
 
-    fs.writeFile('log.txt', dataIn, function(err, data) {
+    // fs.writeFile('log.txt', dataIn, function(err, data) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    //     console.log("Write successful");
+    //     console.log(data);
+    // });
+
+    fs.appendFile('log.txt', dataIn, function(err, data) {
         if(err) {
             return console.log(err);
         }
-        console.log("Write successful");
+        console.log("command logged");
         console.log(data);
     })
 }
