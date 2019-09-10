@@ -408,18 +408,9 @@ function logger(command, query) {
     let queryLog = query;
     let dataIn = [];
     dataIn.push(cmdLog, queryLog);
-    // console.log("Logging Query ...");
-    console.log(`Data Array: ${dataIn}`);
 
-    // fs.writeFile('log.txt', dataIn, function(err, data) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
-    //     console.log("Write successful");
-    //     console.log(data);
-    // });
 
-    fs.appendFile('log.txt', dataIn + "\n", function(err) {
+    fs.appendFile('log.txt', dataIn + "\n", 'utf8', function(err) {
         if(err) {
             return console.log(err);
         }
