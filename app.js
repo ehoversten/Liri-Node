@@ -419,12 +419,11 @@ function logger(command, query) {
     //     console.log(data);
     // });
 
-    fs.appendFile('log.txt', dataIn, function(err, data) {
+    fs.appendFile('log.txt', dataIn + "\n", function(err) {
         if(err) {
             return console.log(err);
         }
         console.log("command logged");
-        console.log(data);
     })
 }
 

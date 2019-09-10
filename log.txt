@@ -1,1 +1,2 @@
-Search OMDB for a movie,JawsSearch OMDB for a movie,HackersSearch Spotify for an artist,Tool
+Search OMDB for a movie,Hackers
+Search Spotify for a song,TNT
