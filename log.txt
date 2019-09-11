@@ -1,2 +1,4 @@
 Search OMDB for a movie,Hackers
 Search Spotify for a song,TNT
+Search Spotify for a song - Jonny B good
+Search OMDB for a movie - Jaws 2

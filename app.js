@@ -407,7 +407,7 @@ function logger(command, query) {
     let cmdLog = command;
     let queryLog = query;
     let dataIn = [];
-    dataIn.push(cmdLog, queryLog);
+    dataIn.push(cmdLog + " - " + queryLog);
 
 
     fs.appendFile('log.txt', dataIn + "\n", 'utf8', function(err) {
