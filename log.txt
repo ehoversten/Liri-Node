@@ -2,3 +2,12 @@ Search OMDB for a movie,Hackers
 Search Spotify for a song,TNT
 Search Spotify for a song - Jonny B good
 Search OMDB for a movie - Jaws 2
+Search Bands in Town for a show - Iron and wine
+
+Search OMDB for a movie - Hackers
+Search Spotify for an artist - Tom Petty
+Search OMDB for a movie - Terminator
+Search Bands in Town for a show - Elton John
+Search Bands in Town for a show - Pink
+Search Bands in Town for a show - celine dion
+Search OMDB for a movie - Braveheart

@@ -5,6 +5,23 @@ const axios = require('axios');
 const chalk = require("chalk");
 const fs = require('fs');
 const inquirer = require('inquirer');
+const logo = require("asciiart-logo");
+
+
+// Configure Ascii-Art package
+let directions = 'Liri-Node Entertainment Search is a Node based Command Line Interface(CLI) that prompts the user for input and retrieves information from several third party APIs (Spotify, OMDB, Bands In Town) and displays the requested information back in the terminal, please enjoy!'
+
+console.log(logo({ 
+  name: "Entertainment Search",
+  logoColor: "bold-red",
+  textColor: "goldenrod"
+  })
+  .right('Version 1.0.0')
+  .emptyLine()
+  .center(directions)
+  .render()
+);
+
 
 // API Keys
 const spotify = new Spotify(keys.spotify);
@@ -58,7 +75,6 @@ function continueSearch() {
         }
     ])
     .then(function(state) {
-        // console.log(state);
         if(state.search_state == 'YES') {
             console.log("Great, let's continue");
             check();
