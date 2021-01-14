@@ -11,3 +11,6 @@ Search Bands in Town for a show - Elton John
 Search Bands in Town for a show - Pink
 Search Bands in Town for a show - celine dion
 Search OMDB for a movie - Braveheart
+Search Spotify for a song - Little Red Corvet
+Search Spotify for a song - Lets dance
+Search OMDB for a movie - Hackers

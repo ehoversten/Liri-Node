@@ -103,7 +103,6 @@ function check() {
         },
     ]).then(function(selection) {
         console.log(chalk.magenta("================="));
-        // console.log(`Hello ${selection.name}`);
         let searchType = selection.search_type;
         console.log(`You want to ${selection.search_type}`);
         let userSelection = selection.userInput;
@@ -132,11 +131,11 @@ function check() {
             case 'Choose Random':
                 readFromFile();
                 break;
-            // case 'Exit':
-            //     console.log("Thank you for using EntertainME");
-            //     stillSearching = false;
-            //     process.exit();
-            //     break;
+            case 'Exit':
+                console.log("Thank you for using EntertainME");
+                stillSearching = false;
+                process.exit();
+                break;
             default:
                 console.log("Please enter a valid command and search query");
         }
@@ -180,7 +179,7 @@ function concertSearch(query) {
                 console.log("Playing at: " + event.venue.name);
                 console.log("In " + event.venue.city + ", " + event.venue.region + " (" + event.venue.country + ")");
                 console.log("Date: " + event.datetime);
-                console.log(chalk.green("========================="));
+                // console.log(chalk.green("========================="));
                 console.log("");
             });
         })
@@ -241,7 +240,7 @@ function movieSearch(movie) {
         console.log(`Language: ${result.Language}`);
         console.log(`Movie Plot: ${result.Plot}`);
         console.log(`Actors: ${result.Actors}`);
-        console.log(chalk.red("******************"));
+        // console.log(chalk.red("******************"));
       })
       .catch(function(err) {
         console.log(err);
@@ -280,7 +279,7 @@ function songSearch(song) {
     spotify
       .search({ type: "track", query: song, limit: 5 })
       .then(function(response) {
-        console.log(chalk.blue("***************"));
+        // console.log(chalk.blue("***************"));
         // Create a variable to hold our results so we can loop through it 
         let result = response.tracks.items;
         result.forEach(function(item) {
@@ -290,10 +289,10 @@ function songSearch(song) {
             console.log(`Album: ${item.album.name} `);
             if (item.preview_url) {
                 console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
-                    console.log(chalk.green("***************"));
+                    // console.log(chalk.green("***************"));
                 } else {
                     console.log("Sorry no preview for this song");
-                    console.log(chalk.blue("***************"));
+                    // console.log(chalk.blue("***************"));
                 }
         });
 
@@ -376,15 +375,15 @@ function readFromFile() {
         if(err) {
             return console.log(err);
         }
-        console.log(data);
+        // console.log(data);
         // Then split it by commas (to make it more readable)
         let dataArr = data.split(", ");
 
         // We will then re-display the content as an array for later use.
-        console.log(dataArr);
+        // console.log(dataArr);
         let song = dataArr[1];
 
-        // Run our spotitfy search
+        // Run our spotify search
         spotify
             .search({ type: "track", query: song, limit: 5 })
             .then(function(response){
@@ -396,10 +395,10 @@ function readFromFile() {
                     console.log(`Album: ${item.album.name} `);
                     if (item.preview_url) {
                         console.log(`Song Preview: ${response.tracks.items[0].preview_url}`);
-                        console.log(chalk.green("***************"));
+                        // console.log(chalk.green("***************"));
                     } else {
                         console.log("Sorry no preview for this song");
-                        console.log(chalk.blue("***************"));
+                        // console.log(chalk.blue("***************"));
                     }
                 });
             })
@@ -430,7 +429,7 @@ function logger(command, query) {
         if(err) {
             return console.log(err);
         }
-        console.log("command logged");
+        // console.log("command logged");
     })
 }
 
